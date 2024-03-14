@@ -1,10 +1,9 @@
 package com.br.personaladm;
 
-import com.br.personaladm.domain.repository.ContaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 public class PersonalAdmApplication implements CommandLineRunner {
