@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class FormaPagamento implements Serializable {
+public class FormaPagamento extends Tipo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forma_pgto_seq")
     @SequenceGenerator(name = "forma_pgto_seq", sequenceName = "forma_pgto_seq", allocationSize = 1, initialValue = 1)

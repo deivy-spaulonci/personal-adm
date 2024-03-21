@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class TipoConta implements Serializable {
+public class TipoConta extends Tipo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_conta_seq")
     @SequenceGenerator(name = "tipo_conta_seq", sequenceName = "tipo_conta_seq", allocationSize = 1, initialValue = 1 )
