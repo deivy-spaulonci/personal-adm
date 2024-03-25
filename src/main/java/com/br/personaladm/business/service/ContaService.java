@@ -1,7 +1,7 @@
 package com.br.personaladm.business.service;
 
+import com.br.personaladm.api.filter.ContaFilter;
 import com.br.personaladm.business.exception.ContaNotFoundException;
-import com.br.personaladm.business.filter.ContaFilter;
 import com.br.personaladm.domain.model.Conta;
 import com.br.personaladm.domain.repository.ContaRepository;
 import com.br.personaladm.domain.specs.ContaEspecification;
@@ -80,7 +80,11 @@ public class ContaService {
      */
     public List<Conta> findAllContas(ContaFilter contaFilter, Sort sort){
         var contaSpecification = new ContaEspecification(contaFilter);
-        return contaRepository.findAll();
+        return contaRepository.findAll(contaSpecification, sort);
+    }
+
+    public List<Conta> findAll(){
+        return contaRepository.findAll(Sort.by("vencimento").descending());
     }
 
     /**

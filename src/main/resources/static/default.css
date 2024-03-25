@@ -1,0 +1,22 @@
+*{
+    font-family: system-ui;
+    font-size: 11px !important;
+}
+.fas{
+    font-size: 16px !important;
+}
+.display-table {
+    display: table;
+}
+.display-table > div {
+    display: table-row;
+}
+.display-table > div > div {
+    display: table-cell;
+    padding: 5px;
+}
+
+/*Primary #0275d8*/
+/*Success #5cb85c*/
+/*Info #5bc0de*/
+/*Warning #f0ad4e*/

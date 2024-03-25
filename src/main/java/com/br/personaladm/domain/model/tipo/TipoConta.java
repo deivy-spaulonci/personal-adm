@@ -1,4 +1,4 @@
-package com.br.personaladm.domain.model;
+package com.br.personaladm.domain.model.tipo;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class TipoConta extends Tipo implements Serializable {
+public class TipoConta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_conta_seq")
     @SequenceGenerator(name = "tipo_conta_seq", sequenceName = "tipo_conta_seq", allocationSize = 1, initialValue = 1 )

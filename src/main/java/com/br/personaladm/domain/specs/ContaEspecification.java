@@ -1,7 +1,8 @@
 package com.br.personaladm.domain.specs;
 
-import com.br.personaladm.business.filter.ContaFilter;
+import com.br.personaladm.api.filter.ContaFilter;
 import com.br.personaladm.domain.model.Conta;
+import com.br.personaladm.domain.model.ContaStatus;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -24,37 +25,38 @@ public class ContaEspecification implements Specification<Conta> {
     public Predicate toPredicate(Root<Conta> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if (Objects.nonNull(contaFilter.id))
-            predicates.add(criteriaBuilder.equal(root.get("id"), contaFilter.id));
-        if (Objects.nonNull(contaFilter.getClass()))
-            predicates.add(criteriaBuilder.equal(root.get("tipoConta"), contaFilter.tipoConta));
+        if (Objects.nonNull(contaFilter.id()))
+            predicates.add(criteriaBuilder.equal(root.get("id"), contaFilter.id()));
+        if (Objects.nonNull(contaFilter.tipoConta()))
+            predicates.add(criteriaBuilder.equal(root.get("tipoConta"), contaFilter.tipoConta()));
 
-        if (Objects.nonNull(contaFilter.vencimentoInicial) && Objects.nonNull(contaFilter.vencimentoFinal))
-            predicates.add(criteriaBuilder.between(root.get("vencimento"), contaFilter.vencimentoInicial, contaFilter.vencimentoFinal));
-        if (Objects.nonNull(contaFilter.vencimentoInicial))
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoInicial));
-        if (Objects.nonNull(contaFilter.vencimentoFinal))
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoFinal));
+        if (Objects.nonNull(contaFilter.vencimentoInicio()) && Objects.nonNull(contaFilter.vencimentoTermino()))
+            predicates.add(criteriaBuilder.between(root.get("vencimento"), contaFilter.vencimentoInicio(), contaFilter.vencimentoTermino()));
+        if (Objects.nonNull(contaFilter.vencimentoInicio()))
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoInicio()));
+        if (Objects.nonNull(contaFilter.vencimentoTermino()))
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoTermino()));
 
-        if (Objects.nonNull(contaFilter.emissaoInicial) && Objects.nonNull(contaFilter.emissaoFinal))
-            predicates.add(criteriaBuilder.between(root.get("emissao"), contaFilter.emissaoInicial, contaFilter.emissaoFinal));
-        if (Objects.nonNull(contaFilter.emissaoInicial))
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("emissao"), contaFilter.emissaoInicial));
-        if (Objects.nonNull(contaFilter.emissaoFinal))
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("emissao"), contaFilter.emissaoFinal));
+        if (Objects.nonNull(contaFilter.emissaoInicio()) && Objects.nonNull(contaFilter.emissaoTermino()))
+            predicates.add(criteriaBuilder.between(root.get("emissao"), contaFilter.emissaoInicio(), contaFilter.emissaoTermino()));
+        if (Objects.nonNull(contaFilter.emissaoInicio()))
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("emissao"), contaFilter.emissaoInicio()));
+        if (Objects.nonNull(contaFilter.emissaoTermino()))
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("emissao"), contaFilter.emissaoTermino()));
 
-        if(Objects.nonNull(contaFilter.status)){
-            if(contaFilter.status>=-1 && contaFilter.status<=1){
-                predicates.add(criteriaBuilder.isNull(root.get("formaPagamento")));
-                switch (contaFilter.status){
-                    case 1: predicates.add(criteriaBuilder.greaterThan(root.get("vencimento"), LocalDate.now())); break;
-                    case 0: predicates.add(criteriaBuilder.equal(root.get("vencimento"), LocalDate.now())); break;
-                    case -1: predicates.add(criteriaBuilder.lessThan(root.get("vencimento"), LocalDate.now())); break;
-                }
-            }else if(contaFilter.status==2)
+        if(Objects.nonNull(contaFilter.contaStatus())){
+            if(contaFilter.contaStatus().equals(ContaStatus.PAGO)){
                 predicates.add(criteriaBuilder.isNotNull(root.get("formaPagamento")));
+                predicates.add(criteriaBuilder.isNotNull(root.get("dataPagamento")));
+            }else{
+                predicates.add(criteriaBuilder.isNotNull(root.get("formaPagamento")));
+                switch (contaFilter.contaStatus()){
+                    case ContaStatus.ABERTO -> predicates.add(criteriaBuilder.greaterThan(root.get("vencimento"), LocalDate.now()));
+                    case ContaStatus.HOJE -> predicates.add(criteriaBuilder.equal(root.get("vencimento"), LocalDate.now()));
+                    case ContaStatus.ATRASADO -> predicates.add(criteriaBuilder.lessThan(root.get("vencimento"), LocalDate.now()));
+                }
+            }
         }
-
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }
 }

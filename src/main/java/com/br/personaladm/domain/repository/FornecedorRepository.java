@@ -1,9 +1,26 @@
 package com.br.personaladm.domain.repository;
 
 import com.br.personaladm.domain.model.Fornecedor;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
-public interface FornecedorRepository extends JpaRepository<Fornecedor, Long> {
+public interface FornecedorRepository extends GenericRepository<Fornecedor> {
+    @Query("FROM Fornecedor WHERE LOWER(nome) LIKE LOWER('%'||:valor||'%') " +
+            "OR LOWER(razao_social) LIKE LOWER('%'||:valor||'%') " +
+            "OR LOWER(cnpj) LIKE LOWER('%'||:valor||'%')")
+    List<Fornecedor> findFornecedoresByNomeOrRazaoSocialrCnpj(String valor, Sort sort);
+
+    @Query("FROM Fornecedor WHERE LOWER(nome) LIKE LOWER('%'||:valor||'%') " +
+            "OR LOWER(razao_social) LIKE LOWER('%'||:valor||'%') " +
+            "OR LOWER(cnpj) LIKE LOWER('%'||:valor||'%')")
+    Page<Fornecedor> findFornecedoresByNomeOrRazaoSocialrCnpjPage(String valor, Pageable pageable);
+
+    Optional<Fornecedor> findFornecedorByCnpj(String cnpj);
 }

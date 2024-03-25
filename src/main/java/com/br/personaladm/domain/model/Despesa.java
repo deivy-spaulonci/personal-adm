@@ -1,5 +1,7 @@
 package com.br.personaladm.domain.model;
 
+import com.br.personaladm.domain.model.tipo.FormaPagamento;
+import com.br.personaladm.domain.model.tipo.TipoDespesa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -8,4 +8,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface GenericRepository<T> extends JpaRepository<T, Long>,
         JpaSpecificationExecutor<T> {
 
+
 }

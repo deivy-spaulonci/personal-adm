@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Personal ADM</title>
+    <link rel="stylesheet" type="text/css" href="jqueryeasyui/themes/metro-gray/easyui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="default.css">
+    <script type="text/javascript" src="jqueryeasyui/jquery.min.js"></script>
+    <script type="text/javascript" src="jqueryeasyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="jqueryeasyui/jquery-easyui-datagridview/datagrid-detailview.js"></script>
+    <script type="text/javascript" src="default.js"></script>
+</head>
+<body>
+<div id="main" class="easyui-panel" data-options="fit:true,title:'Personal Adm',iconCls:'fas fa-user',tools:'#tt'"></div>
+
+<div id="tt">
+    <a href="javascript:void(0)" onclick="javascript:$('#dd').drawer('expand')">
+        <i class="fas fa-bars"></i>
+    </a>
+</div>
+
+<div id="dd" class="easyui-drawer" style="width:150px; text-align: center;">
+    <p style="text-align:center;margin:50px 0;font-size:16px">Menu</p>
+
+    <a href="#" class="easyui-linkbutton" style="width: 90%"
+       onclick="javascript:nav('/conta.html');javascript:$('#dd').drawer('collapse');">
+        <i class="fas fa-solid fa-barcode" style="font-size: 42px!important; display: block;"></i>Contas
+    </a>
+    <br/><br/>
+    <a href="#" class="easyui-linkbutton" style="width: 90%"
+       onclick="javascript:nav('/conta.html');javascript:$('#dd').drawer('collapse');">
+        <i class="fas fa-solid fa-dollar-sign" style="font-size: 42px!important; display: block;"></i>Despesas
+    </a>
+    <br/><br/>
+    <a href="#" class="easyui-linkbutton" style="width: 90%"
+       onclick="javascript:nav('/conta.html');javascript:$('#dd').drawer('collapse');">
+        <i class="fas fa-solid fa-box" style="font-size: 42px!important; display: block;"></i>Fornecedores
+    </a>
+    <br/><br/>
+    <a href="#" class="easyui-linkbutton" style="width: 90%"
+       onclick="javascript:nav('/conta.html');javascript:$('#dd').drawer('collapse');">
+        <i class="fas fa-solid fa-folder-open" style="font-size: 42px!important; display: block;"></i>Documentos
+    </a>
+
+
+</div>
+
+<script>
+    $(function(){
+        nav('conta.html');
+    })
+    function nav(url){
+        $('#main').panel('refresh', url);
+    }
+</script>
+</body>
+</html>

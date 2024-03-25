@@ -1,0 +1,117 @@
+
+<div class="easyui-tabs" data-options="fit:true">
+    <div title="Consulta">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'north',title:'Contas',collapsible:false" style="height:120px; padding: 5px;">
+                <div class="display-table">
+                    <div>
+                        <div>
+                            <input class="easyui-textbox" label="Id:" labelPosition="top" style="width:70px;display: inline">
+                        </div>
+                        <div>
+                            <select class="easyui-combobox" name="tipoConta" label="Tipo Conta:" labelPosition="top" style="width:250px;"
+                                    data-options="panelHeight:'550',panelWidth:'300'">
+                                <option value="">Todos</option>
+<!--                                <option th:each="tipo : ${tiposConta}" th:value="${tipo.id}" th:text="${tipo.nome}"></option>-->
+                            </select>
+                        </div>
+                        <div>
+                            <input class="easyui-maskedbox" mask="99/99/9999" label="Vencimento:" labelPosition="top" style="width:100px">
+                            <input class="easyui-maskedbox" mask="99/99/9999" style="width:100px">
+                        </div>
+                        <div>
+                            <input class="easyui-maskedbox" mask="99/99/9999" label="Emissão:" labelPosition="top" style="width:100px">
+                            <input class="easyui-maskedbox" mask="99/99/9999" style="width:100px">
+                        </div>
+                        <div>
+                            <select class="easyui-combobox" name="status" label="Status:" labelPosition="top" style="width:100%;"
+                                    data-options="panelHeight:'170'">
+                                <option value="">Todos</option>
+                                <option value="ABERTO">Em aberto</option>
+                                <option value="HOJE">Vencimento Hoje</option>
+                                <option value="ATRASADO">Atrasado</option>
+                                <option value="PAGO">Pago</option>
+                            </select>
+                        </div>
+                        <div style="vertical-align: bottom;">
+                            <a href="#" class="easyui-linkbutton" data-options="iconCls:'fas fa-solid fa-filter'">Filtrar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-options="region:'center',title:'Consulta',iconCls:'icon-ok'">
+                <table id="dgConta"></table>
+            </div>
+            <div data-options="region:'south',split:true" style="height:30px;">
+                <div style="padding: 5px; width: 45%; display: inline-block;" id="footerRegistro"></div>
+                <div style="padding: 5px; width: 45%; display: inline-block; text-align: right;" id="footerTotal"></div>
+            </div>
+        </div>
+    </div>
+    <div title="Cadastro">
+
+    </div>
+</div>
+
+<script>
+    $(function(){
+
+        var dgConta = $('#dgConta').datagrid({
+            fit:true,
+            fitColumns:true,
+            url:'http://localhost:8086/api/v1/conta?sort=vencimento,desc',
+            method:'GET',
+            columns:[[
+                {field:'id',title:'Id',align:'center',width:50},
+                {field:'tipoConta',title:'Conta',formatter:rowTipo},
+                {field:'emissao',title:'Emissão',width:70,align:'center',formatter:rowEmissao},
+                {field:'vencimento',title:'Vencimento',width:70,align:'center',formatter:rowVencimento},
+                {field:'valor',title:'Valor',width:70,align:'right',formatter:rowValor},
+                {field:'status',title:'Status',width:70,align:'center'},
+            ]],
+            rowStyler: function(index, row){
+                let classe = null;
+                switch (row.intStatus){
+                    case 1 : classe = '5cb85c'; break; //em aberto
+                    case -1 : classe = 'd9534f'; break; //atrasado
+                    case 0 : classe ='f0ad4e'; break; //hoje
+                }
+                if(classe)
+                    return `background-color:#${classe};color:#fff;font-weight:bold;`;
+            },
+            onLoadSuccess:function (data){
+                $('#footerRegistro').text(data.total + " Registros");
+                let total = 0;
+                for (const conta of data.rows) {
+                    total = total + conta.valor;
+                }
+                $('#footerTotal').text("R$ " + numberStringToMoeda(total.toFixed(2)));
+            },
+            view: detailview,
+            detailFormatter:function(index,row){
+                var deatlhes = '<div class="display-table" style="background-color: #f6f6f6;">' +
+                    '<div><div>Codigo de Barras : '+ row.codigoBarra +'</div></div>' +
+                    '<div><div>Conta : '+ row.tipoConta.nome +'</div></div>' +
+                    '<div>'+
+                    '<div>Emissão : '+ row.emissao +'</div>'+
+                    '<div>Vencimento : '+ row.vencimento +'</div>'+
+                    '</div>'+
+                    '</div>';
+                return deatlhes;
+            },
+        });
+    });
+
+    function rowTipo(index, row){
+        return row.tipoConta.nome;
+    }
+    function rowEmissao(index, row){
+        return dataStringToDate(row.emissao);
+    }
+    function rowVencimento(index, row){
+        return dataStringToDate(row.vencimento);
+    }
+    function rowValor(index, row){
+        return numberStringToMoeda(row.valor);
+    }
+</script>
