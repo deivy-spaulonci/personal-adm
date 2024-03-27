@@ -1,6 +1,7 @@
 package com.br.personaladm.domain.repository;
 
 import com.br.personaladm.domain.model.Fornecedor;
+import com.br.personaladm.domain.repository.generic.GenericRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

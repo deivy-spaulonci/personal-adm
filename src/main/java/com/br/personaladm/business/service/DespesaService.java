@@ -34,9 +34,6 @@ public class DespesaService {
     @Autowired
     private DespesaRepository despesaRepository;
 
-    @Autowired
-    private FornecedorRepository fornecedorRepository;
-
     @PersistenceContext
     private EntityManager em;
 

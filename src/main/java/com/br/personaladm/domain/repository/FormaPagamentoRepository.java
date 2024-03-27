@@ -1,11 +1,9 @@
 package com.br.personaladm.domain.repository;
 
 import com.br.personaladm.domain.model.tipo.FormaPagamento;
+import com.br.personaladm.domain.repository.generic.GenericReporitoryTipo;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface FormaPagamentoRepository extends GenericRepository<FormaPagamento> {
-    List<FormaPagamento> findFormaPagamentoByNomeContainingIgnoreCaseOrderByNome(String nome);
+public interface FormaPagamentoRepository  extends GenericReporitoryTipo<FormaPagamento> {
 }

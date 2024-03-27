@@ -1,5 +1,6 @@
 package com.br.personaladm.domain.model.tipo;
 
+import com.br.personaladm.domain.model.tipo.generic.GenericEntityTipo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class TipoDespesa implements Serializable, GenericEntityTipo {
+public class TipoDespesa implements Serializable, GenericEntityTipo<TipoDespesa> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_despesa_seq")
     @SequenceGenerator(name = "tipo_despesa_seq", sequenceName = "tipo_despesa_seq", allocationSize = 1, initialValue = 1)
@@ -21,4 +22,16 @@ public class TipoDespesa implements Serializable, GenericEntityTipo {
 
     @Column(length = 255, nullable = false)
     private String nome;
+
+    @Override
+    public void update(TipoDespesa source) {
+        this.nome = source.getNome();
+    }
+
+    @Override
+    public TipoDespesa createNewInstance() {
+        TipoDespesa newInstance = new TipoDespesa();
+        newInstance.update(this);
+        return newInstance;
+    }
 }
