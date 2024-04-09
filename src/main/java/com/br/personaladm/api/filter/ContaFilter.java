@@ -7,23 +7,23 @@ import java.time.LocalDate;
 
 public record ContaFilter(Long id,
                           TipoConta tipoConta,
-                          LocalDate vencimentoInicio,
-                          LocalDate vencimentoTermino,
+                          LocalDate vencimentoInicial,
+                          LocalDate vencimentoFinal,
                           LocalDate emissaoInicio,
                           LocalDate emissaoTermino,
                           ContaStatus contaStatus) {
 
     public ContaFilter(Long id,
                        TipoConta tipoConta,
-                       LocalDate vencimentoInicio,
-                       LocalDate vencimentoTermino,
+                       LocalDate vencimentoInicial,
+                       LocalDate vencimentoFinal,
                        LocalDate emissaoInicio,
                        LocalDate emissaoTermino,
                        ContaStatus contaStatus){
         this.id = id;
         this.tipoConta = tipoConta;
-        this.vencimentoInicio = vencimentoInicio;
-        this.vencimentoTermino = vencimentoTermino;
+        this.vencimentoInicial = vencimentoInicial;
+        this.vencimentoFinal = vencimentoFinal;
         this.emissaoInicio = emissaoInicio;
         this.emissaoTermino = emissaoTermino;
         this.contaStatus = contaStatus;

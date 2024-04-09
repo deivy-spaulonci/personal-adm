@@ -25,7 +25,7 @@ public class Fornecedor implements Serializable {
     private String nome;
 
     @Column(length = 255, nullable = false, name = "RAZAO_SOCIAL")
-    private String razao_social;
+    private String razaoSocial;
 
     @Pattern(regexp = "[0-9]*")
     @Size(min = 14, max = 14)
@@ -36,6 +36,6 @@ public class Fornecedor implements Serializable {
     @Column(length = 60, nullable = true)
     private String cpf;
 
-    @Column(length = 255, nullable = false,name = "CIDADE_CODIGO_IBGE")
-    private String cidade_codigo_ibge;
+    @Column(length = 255, nullable = false, name = "CIDADE_CODIGO_IBGE")
+    private String cidadeCodigoIbge;
 }

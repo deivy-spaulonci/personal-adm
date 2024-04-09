@@ -34,4 +34,9 @@ public class TipoDespesa implements Serializable, GenericEntityTipo<TipoDespesa>
         newInstance.update(this);
         return newInstance;
     }
+
+    @Override
+    public String toString(){
+        return getNome();
+    }
 }

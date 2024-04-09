@@ -23,12 +23,26 @@ public class FornecedorService {
     private FornecedorRepository fornecedorRepository;
 
     /**
+     * busca fornecedor
+     * @return List<Fornecedor>
+     */
+    public List<Fornecedor> findAll(){
+        return fornecedorRepository.findAll();
+    }
+    /**
+     * busca fornecedor
+     * @return Page<Fornecedor>
+     */
+    public Page<Fornecedor> findAll(Pageable pageable){
+        return fornecedorRepository.findAll(pageable);
+    }
+    /**
      * busca qualquer fornecedor com valor para cnpj ou razao ou nome
      * @param valor
      * @return
      */
-    public List<Fornecedor> listFornecedorByNomeOrRazaoOrCNPJ(String valor, Sort sort){
-        return fornecedorRepository.findFornecedoresByNomeOrRazaoSocialrCnpj(valor, sort);
+    public List<Fornecedor> listFornecedorByNomeOrRazaoOrCNPJ(String valor){
+        return fornecedorRepository.findFornecedoresByNomeOrRazaoSocialrCnpj(valor);
     }
     /**
      * lista fornecedores com filtros e paginado
@@ -36,7 +50,7 @@ public class FornecedorService {
      * @param pageable
      * @return Page<Fornecedor>
      */
-    public Page<Fornecedor> getPageByFilters(String valor, Pageable pageable){
+    public Page<Fornecedor> getPageByNomeOrRazaoOrCNPJ(String valor, Pageable pageable){
         return fornecedorRepository.findFornecedoresByNomeOrRazaoSocialrCnpjPage(valor, pageable);
     }
     /**

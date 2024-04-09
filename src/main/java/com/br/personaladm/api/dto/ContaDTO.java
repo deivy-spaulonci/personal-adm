@@ -8,22 +8,26 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContaDTO {
+public class ContaDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
+//    @NotNull
     private TipoConta tipoConta;
 
     @NotNull
@@ -39,20 +43,21 @@ public class ContaDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate vencimento;
 
+    @NotNull
+    private BigDecimal valor;
+
     private int parcela;
     private int totalParcelas;
-    private BigDecimal multa;
-    private List<Fatura> faturas;
+    private String titulo;
+    private FormaPagamento formaPagamento;
+    private String comprovante;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataPagamento;
 
-    @NotNull
-    private BigDecimal valor;
-
-    private FormaPagamento formaPagamento;
-    private Fornecedor fornecedor;
+    private BigDecimal multa;
+    private List<Fatura> faturas;
     private String obs;
 
     @JsonGetter(value = "intStatus")
@@ -67,7 +72,6 @@ public class ContaDTO {
                 return -1;
         }
         return 2;
-
     }
 
     @JsonGetter(value = "status")

@@ -2,6 +2,7 @@ package com.br.personaladm.api.dto;
 
 import com.br.personaladm.domain.model.Fatura;
 import com.br.personaladm.domain.model.tipo.TipoDespesa;
+import com.br.personaladm.domain.model.tipo.TipoDocumento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,7 +24,7 @@ public class DocumentoDTO {
     private String nome;
 
     @NotNull
-    private TipoDespesa tipoDespesa;
+    private TipoDocumento tipoDocumento;
 
     private List<String> doc_arquivos;
 }

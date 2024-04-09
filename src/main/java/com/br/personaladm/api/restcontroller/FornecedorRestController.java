@@ -7,6 +7,7 @@ import com.br.personaladm.business.service.FornecedorService;
 import com.br.personaladm.domain.model.Fornecedor;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,12 +36,20 @@ public class FornecedorRestController {
     private static final FornecedorMapper fornecedorMapper = FornecedorMapper.INSTANCE;
 
     @GetMapping()
-    public List<FornecedorDTO> get(@ModelAttribute String texto, Sort sort){
-        return fornecedorMapper.toDtoList(fornecedorService.listFornecedorByNomeOrRazaoOrCNPJ(texto, sort));
+    public List<FornecedorDTO> get(){
+        return fornecedorMapper.toDtoList(fornecedorService.findAll());
     }
     @GetMapping("/page")
-    public Page<FornecedorDTO> getPage(@ModelAttribute String texto, Pageable pageable){
-        return fornecedorService.getPageByFilters(texto, pageable).map(fornecedorMapper::toDTO);
+    public Page<FornecedorDTO> getPage(Pageable pageable){
+        return fornecedorService.findAll(pageable).map(fornecedorMapper::toDTO);
+    }
+    @GetMapping("/busca")
+    public List<FornecedorDTO> get(@PathParam("textobusca") String textobusca){
+        return fornecedorMapper.toDtoList(fornecedorService.listFornecedorByNomeOrRazaoOrCNPJ(textobusca));
+    }
+    @GetMapping("/busca/page")
+    public Page<FornecedorDTO> getPage(@PathParam("textobusca") String textobusca, Pageable pageable){
+        return fornecedorService.getPageByNomeOrRazaoOrCNPJ(textobusca, pageable).map(fornecedorMapper::toDTO);
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> contaFindById(@PathVariable("id") Long id){
@@ -78,21 +87,27 @@ public class FornecedorRestController {
 
     @GetMapping(value = "/consultacnpj", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String consultaCNPJ(@RequestParam(name = "cnpj") String cnpj){
-        String URL_API = "https://www.receitaws.com.br/v1/cnpj/"+cnpj;
-        HttpURLConnection con = null;
+    public ResponseEntity<String> consultaCNPJ(@RequestParam(name = "cnpj") String cnpj){
 
-        try {
-            URL url = null;
-            url = new URL(URL_API);
-            con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.connect();
-            return getJson(url);
-        } catch (Exception e) {
-            e.printStackTrace();
+        Optional<Fornecedor> fornecedorbusca = fornecedorService.findFornecedorByCNPJ(cnpj);
+        if(fornecedorbusca.isPresent()){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("CNPJ já cadastrado!");
+        }else{
+            String URL_API = "https://www.receitaws.com.br/v1/cnpj/"+cnpj;
+            HttpURLConnection con = null;
+
+            try {
+                URL url = null;
+                url = new URL(URL_API);
+                con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.connect();
+                return ResponseEntity.ok(getJson(url));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("conflito na requisição da receita!");
     }
 
     public static String getJson(URL url) {

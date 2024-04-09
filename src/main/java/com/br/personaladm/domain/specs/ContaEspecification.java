@@ -30,12 +30,12 @@ public class ContaEspecification implements Specification<Conta> {
         if (Objects.nonNull(contaFilter.tipoConta()))
             predicates.add(criteriaBuilder.equal(root.get("tipoConta"), contaFilter.tipoConta()));
 
-        if (Objects.nonNull(contaFilter.vencimentoInicio()) && Objects.nonNull(contaFilter.vencimentoTermino()))
-            predicates.add(criteriaBuilder.between(root.get("vencimento"), contaFilter.vencimentoInicio(), contaFilter.vencimentoTermino()));
-        if (Objects.nonNull(contaFilter.vencimentoInicio()))
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoInicio()));
-        if (Objects.nonNull(contaFilter.vencimentoTermino()))
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoTermino()));
+        if (Objects.nonNull(contaFilter.vencimentoInicial()) && Objects.nonNull(contaFilter.vencimentoFinal()))
+            predicates.add(criteriaBuilder.between(root.get("vencimento"), contaFilter.vencimentoInicial(), contaFilter.vencimentoFinal()));
+        if (Objects.nonNull(contaFilter.vencimentoInicial()))
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoInicial()));
+        if (Objects.nonNull(contaFilter.vencimentoFinal()))
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("vencimento"), contaFilter.vencimentoFinal()));
 
         if (Objects.nonNull(contaFilter.emissaoInicio()) && Objects.nonNull(contaFilter.emissaoTermino()))
             predicates.add(criteriaBuilder.between(root.get("emissao"), contaFilter.emissaoInicio(), contaFilter.emissaoTermino()));
@@ -49,7 +49,7 @@ public class ContaEspecification implements Specification<Conta> {
                 predicates.add(criteriaBuilder.isNotNull(root.get("formaPagamento")));
                 predicates.add(criteriaBuilder.isNotNull(root.get("dataPagamento")));
             }else{
-                predicates.add(criteriaBuilder.isNotNull(root.get("formaPagamento")));
+                predicates.add(criteriaBuilder.isNull(root.get("formaPagamento")));
                 switch (contaFilter.contaStatus()){
                     case ContaStatus.ABERTO -> predicates.add(criteriaBuilder.greaterThan(root.get("vencimento"), LocalDate.now()));
                     case ContaStatus.HOJE -> predicates.add(criteriaBuilder.equal(root.get("vencimento"), LocalDate.now()));

@@ -20,10 +20,10 @@ public class FornecedorDTO {
 
     @Size(min = 3)
     @NotBlank
-    private String razao_social;
+    private String razaoSocial;
 
     private String cnpj;
 
-    private String cidade_codigo_ibge;
+    private String cidadeCodigoIbge;
 
 }

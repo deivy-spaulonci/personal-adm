@@ -47,7 +47,7 @@ public class Conta implements Serializable {
     @Column(length = 10, nullable = false)
     private Integer totalParcelas;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "ID_FORMA_PAGAMENTO")
     private FormaPagamento formaPagamento;
 

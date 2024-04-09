@@ -1,11 +1,17 @@
 package com.br.personaladm.business.service;
 
+import com.br.personaladm.api.dto.ContaDTO;
 import com.br.personaladm.business.exception.ContaNotFoundException;
 import com.br.personaladm.domain.model.Conta;
 import com.br.personaladm.domain.model.tipo.FormaPagamento;
 import com.br.personaladm.domain.model.tipo.TipoConta;
 import com.br.personaladm.domain.repository.ContaRepository;
 import lombok.extern.log4j.Log4j2;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.model.enums.CompressionLevel;
+import net.lingala.zip4j.model.enums.EncryptionMethod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +22,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -62,6 +71,28 @@ public class ContaServiceTest {
                 .build();
     }
 
+    @Test
+    void teste() {
+
+
+//        /** Criptografando */
+//        public static String criptografiaBase64Encoder(String pValor) {
+//            return new String(Base64.getEncoder().encode(pValor.getBytes()));
+//        }
+//
+//        public static String descriptografiaBase64Decode(String pValor) {
+//            return new String(Base64.getDecoder().decode(pValor.getBytes()));
+//        }
+
+//        ZipParameters zipParameters = new ZipParameters();
+//        zipParameters.setEncryptFiles(true);
+//        zipParameters.setCompressionLevel(CompressionLevel.HIGHER);
+//        zipParameters.setEncryptionMethod(EncryptionMethod.AES);
+//
+//        ZipFile zipFile = new ZipFile("/home/deivy/compressed.zip", "password".toCharArray());
+//        zipFile.addFile(new File("/home/deivy/aFile.txt"), zipParameters);
+
+    }
 //    @DisplayName("When Create a Person with null e-Mail Should throw Exception")
 //    @Test
 //    void testCreatePerson_WhithNullEMail_ShouldThrowIllegalArgumentException() {

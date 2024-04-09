@@ -14,12 +14,12 @@ import java.util.Optional;
 @Repository
 public interface FornecedorRepository extends GenericRepository<Fornecedor> {
     @Query("FROM Fornecedor WHERE LOWER(nome) LIKE LOWER('%'||:valor||'%') " +
-            "OR LOWER(razao_social) LIKE LOWER('%'||:valor||'%') " +
-            "OR LOWER(cnpj) LIKE LOWER('%'||:valor||'%')")
-    List<Fornecedor> findFornecedoresByNomeOrRazaoSocialrCnpj(String valor, Sort sort);
+            "OR LOWER(razaoSocial) LIKE LOWER('%'||:valor||'%') " +
+            "OR LOWER(cnpj) LIKE LOWER('%'||:valor||'%') ORDER BY nome")
+    List<Fornecedor> findFornecedoresByNomeOrRazaoSocialrCnpj(String valor);
 
     @Query("FROM Fornecedor WHERE LOWER(nome) LIKE LOWER('%'||:valor||'%') " +
-            "OR LOWER(razao_social) LIKE LOWER('%'||:valor||'%') " +
+            "OR LOWER(razaoSocial) LIKE LOWER('%'||:valor||'%') " +
             "OR LOWER(cnpj) LIKE LOWER('%'||:valor||'%')")
     Page<Fornecedor> findFornecedoresByNomeOrRazaoSocialrCnpjPage(String valor, Pageable pageable);
 
